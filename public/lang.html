@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>lang</title>
+  <style media="screen">
+    .lang {
+      display: flex;
+      line-height: 60px;
+      text-align: center;
+    }
+    .lang span {
+      flex: 1;
+      border: 1px solid #ccc;
+    }
+    .lang span.on {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div id='app'>
+
+    <!-- :value 和 @input = v-model -->
+    <qf-language v-model='lang'></qf-language>
+    <!-- <qf-language v-model='lang2'></qf-language> -->
+    <h1>你选择是：<span v-text='lang.label'></span></h1>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script>
+    Vue.component('qf-language', {
+      props: {
+        value: {
+          type: Object,  //用于自定义属性的数据类型
+          required: true  // 是否必填
+        }
+      },
+      template: `
+      <div class='lang'>
+        <span
+          v-for='item in arr'
+          v-text='item.label'
+          :class='{"on":value.id==item.id}'
+          @click='$emit("input", {id: item.id, label: item.label})'
+        >
+        </span>
+      </div>
+      `,
+      data: function() {
+        return {
+          arr: [
+            {id: 1, label: '中文'},
+            {id: 2, label: '英文'},
+            {id: 3, label: '德国'},
+            {id: 4, label: '法语'},
+            {id: 5, label: '日语'}
+          ]
+        }
+      }
+    })
+
+  </script>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        lang: {id: 1, label: '中文'},
+        lang2: 2,
+      },
+      methods: {
+        lang2Input(id){
+          this.lang2 = id
+        }
+      }
+    })
+  </script>
+
+
+</body>
+</html>
